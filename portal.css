@@ -1,0 +1,31 @@
+header {
+    background-color: lightblue;
+    margin-bottom: 10vh;
+    text-align: center;
+    padding: 50px;
+}
+div#container {
+    display: flex;
+}
+div.posty {
+    width: 50vw;
+    margin: 0 auto;
+    background-color: grey;
+    padding: 10px;
+    margin-bottom: 10vh;
+}
+img.obraz-posta {
+    width: 100%;
+}
+div.dol-strony {
+    display: flex;
+}
+span.data,
+span.reakcje {
+    display: block;
+    flex: 1;
+    font-size: 75%;
+}
+span.reakcje {
+    text-align: right;
+}
