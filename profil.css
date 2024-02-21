@@ -1,7 +1,9 @@
 .naglowek {
     background-color: lightblue;
-    font-size: 20px;
-    height: 80px;
+    margin-bottom: 10vh;
+    text-align: center;
+    padding: 50px;
+    font-size: 25px;
 }
 .zdjecie {
     text-align: center;
