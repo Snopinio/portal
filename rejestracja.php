@@ -30,6 +30,9 @@ if(isset($_REQUEST['email'])&& isset($_REQUEST['password'])) {
                 <input type="password" class="from-controll mb-3" name="password" id="passwordInput">
                 <button type="submit" class="btn btn-primary w-100 mt-3">Zajerestruj</button>
             </form>
+            <a href="index.php">
+                <button class="btn btn-primary w-100 mt-3">Powrót</button>
+                </a>
             <?php
             if (isset($result)) {
                 if ($result) {
