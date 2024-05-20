@@ -1,63 +1,38 @@
 <?php
-//pobierz sobie z url ID profilu 
-if(isset($_GET['profileID'])) {
-    //jesli istnieje profile id w url (w linku) to podstaw
-    $id = $_GET['profileID'];
+require_once('class/User.class.php');
+require_once('class/Profile.class.php');
+session_start();
+
+if(isset($_REQUEST['profileID'])) {
+    $profileID = $_REQUEST['profileID'];
+    $p = Profile::Get($profileID);
 } else {
-    //jeśli nie istnieje w linku (nie podano) to ustaw 1
-    $id = 1;
+    if(isset($_SESSION['user'])) {
+        //jest zalogowany użytkownik - pokaż jego profil
+        //załaduj profil zalogowanego użytkownika
+        $p = Profile::GetUserProfile($_SESSION['user']->GetID());
+    } else {
+        //pokaż domyślny profil
+        $p = Profile::Get(3);
+    }
+    
 }
-
-
-//kwerenda pobiera jeden profil z tabeli po jego id
-$sql = "SELECT * FROM profile 
-        LEFT JOIN photo ON profile.profilePhotoID = photo.ID
-        WHERE profile.ID=? 
-        LIMIT 1";
-
-//połącz się z bazą danych
-$db = new mysqli('localhost', 'root', '', 'portal');
-
-//przygotuj kwerendę do wysłania
-$query = $db->prepare($sql);
-
-//podstaw ID
-$query->bind_param('i', $id);
-
-//wykonujemy kwerendę
-$query->execute();
-
-//odbierz wynik
-$result = $query->get_result()->fetch_assoc();
-
-//result jest jednowierszową tabelą
-//echo "<pre>";
-//print_r($result);
-
-$firstName = $result['firstName'];
-$lastName = $result['lastName'];
-$description = $result['description'];
-$profilePhotoUrl = $result['url']
 ?>
-
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil użytkownika</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Strona główna</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
+
 <body>
-    <div id="profileContent">
-        <span id="name">
-            <?php echo $firstName." ".$lastName; ?>
-        </span>
-        <img src="<?php echo $profilePhotoUrl; ?>" 
-            alt="" id="profilePhoto">
-        <p id="profileDescription">
-            <?php echo $description; ?>
-        </p>
-    </div>
+<h1>Profila gostka</h1>
+Imię i nazwisko: <?php echo $p->getFullName(); ?>
+Zdjecie profilowe: <img src="<?php $p->getProfilePhotoURL();?>">
+
 </body>
 </html>
