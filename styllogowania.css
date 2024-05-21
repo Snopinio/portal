@@ -1,0 +1,6 @@
+body {
+    background-image: url('Designer.jpeg');
+    background-size: cover; /* Dopasowuje obrazek do rozmiaru okna */
+    background-repeat: no-repeat; /* Zapobiega powtarzaniu obrazka */
+    background-position: center center; /* Ustawia obrazek na środku */
+}
